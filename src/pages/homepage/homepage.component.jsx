@@ -1,12 +1,10 @@
-// import { Home } from '@material-ui/icons';
 import React from 'react';
 
-import NavBar  from '../../components/navBar/navbar.component';
 import Directory from '../../components/directory/directory.component';
+import './homepage.styles.scss';
 
 const HomePage = () => (
-  <div>
-    <NavBar />
+  <div className="homepage">
     <Directory />
   </div>
 );
