@@ -18,7 +18,7 @@ const NavBar = () => (
           <Brightness4Rounded color='action' />
         </Link>
       </IconButton>
-      <IconButton spacing={0}>
+      <IconButton spacing={0} >
         <Link className={styles.link}>
           <StorefrontRounded color='action' />
         </Link>
