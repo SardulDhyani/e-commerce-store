@@ -2,14 +2,26 @@ import React, { Component } from 'react';
 import { Button,  Grid, TextField, Typography, Link} from '@material-ui/core';
 import { LockRounded, MailOutlineRounded } from '@material-ui/icons';
 
+import { signInWithGoogle } from '../../firebase/firebase.utils';
 import styles from './sign-in.module.css';
 
 class SignIn extends Component {
   constructor(props){
     super(props);
     this.state = {
-
+      email : '',
+      password : ''
     }
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.setState({ email : '', password : '' })
+  }
+
+  handleChange = (event) => {
+    const { value, name} = event.target;
+    this.setState({ [name] : value });
   }
 
   render(){
@@ -20,7 +32,7 @@ class SignIn extends Component {
           <br />
           Sign In
         </Typography>
-        <form className={styles.form} noValidate>
+        <form className={styles.form} onSubmit={ this.handleSubmit } noValidate>
           <TextField
             variant="outlined"
             margin="normal"
@@ -29,7 +41,8 @@ class SignIn extends Component {
             id="email"
             label="Email Address"
             name="email"
-            autoComplete="email"
+            value={ this.state.email }
+            onChange={ this.handleChange }
             autoFocus
           />
           <TextField
@@ -41,7 +54,8 @@ class SignIn extends Component {
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
+            value={this.state.password}
+            onChange={ this.handleChange }
           />
 
           <Button
@@ -55,7 +69,7 @@ class SignIn extends Component {
           </Button>
           <div className={styles.ten} />
           <Button
-            type="submit"
+            onClick={signInWithGoogle}
             fullWidth
             variant="contained"
             color="secondary"
