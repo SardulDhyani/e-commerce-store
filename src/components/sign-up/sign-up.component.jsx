@@ -2,15 +2,50 @@ import React, { Component } from 'react';
 import { Button,  Grid, TextField, Typography } from '@material-ui/core';
 import { PersonAddRounded } from '@material-ui/icons';
 
+import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 import styles from './sign-up.module.css';
 
 class SignUp extends Component{
   constructor(props){
     super(props);
-    this.state={}
+    this.state={
+      displayName : '',
+      email : '',
+      password : '',
+      confirmPassword : ''
+    }
   }
   
+  handleSubmit = async event => {
+    event.preventDefault();
+    const { displayName, email, password, confirmPassword } = this.state;
+    if(password !== confirmPassword){
+      alert('Invalid password');
+      return;
+    }
+    try{
+      const {user} = await auth.createUserWithEmailAndPassword(email, password);
+      await createUserProfileDocument(user, { displayName });
+      this.setState({
+        displayName : '',
+        email : '',
+        password : '',
+        confirmPassword : ''
+      });
+      
+    } catch(error){
+      console.log(error);
+    }
+  }
+
+  handleChange = event => {
+    const { name, value } = event.target;
+    this.setState({[name] : value});
+  }
+
+
   render(){
+    const { displayName, email, password, confirmPassword } = this.state;
     return(
       <Grid item xs={12} sm={12} md={12} lg={6} >
         <Typography component='h1' variant='h5' align='center'>
@@ -19,7 +54,7 @@ class SignUp extends Component{
           Create New Account
         </Typography>
   
-        <form className={styles.form} noValidate>
+        <form className={styles.form} onSubmit={ this.handleSubmit } noValidate>
           <TextField
             variant="outlined"
             margin="normal"
@@ -27,7 +62,9 @@ class SignUp extends Component{
             fullWidth
             id="name"
             label="User Name"
-            name="userName"   
+            name="displayName"
+            value={displayName}   
+            onChange={this.handleChange}
           />
           <TextField
             variant="outlined"
@@ -37,8 +74,8 @@ class SignUp extends Component{
             id="email"
             label="Email Address"
             name="email"
-            autoComplete="email"
-            
+            value={email}
+            onChange={this.handleChange}
           />
           <TextField
             variant="outlined"
@@ -50,17 +87,21 @@ class SignUp extends Component{
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={this.handleChange}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            name="password"
+            name="confirmPassword"
             label="Confirm Password"
             type="password"
             id="confirmPassword"
             autoComplete="current-password"
+            value={confirmPassword}
+            onChange={this.handleChange}
           />
           <Button
             type="submit"

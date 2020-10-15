@@ -9,7 +9,7 @@
   flex-grow: 1;
 }
 .link {
-  margin: 1, 1.5;
+  text-decoration: none;
 }
 
 .icon {
