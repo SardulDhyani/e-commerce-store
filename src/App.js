@@ -43,7 +43,7 @@ class App extends Component {
   render(){
     return (
       <div className="App">
-        <NavBar currentUser={this.state.currentUser} />
+        <NavBar />
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route exact path='/shop' component={ShopPage} />

@@ -2,6 +2,7 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
 import { LaptopMac, StorefrontRounded, AccountCircleRounded, Brightness4Rounded, ShoppingCartRounded, PersonOutlineOutlined, ExitToAppOutlined, VpnKeyOutlined } from '@material-ui/icons'
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { auth } from '../../firebase/firebase.utils';
 import styles from './navBar.module.css';
@@ -73,7 +74,11 @@ function NavBar({ currentUser }) {
   );
 }
 
-export default NavBar;
+const mapStateToProps = (state) => ({
+  currentUser : state.user.currentUser
+});
+
+export default connect(mapStateToProps)(NavBar);
 
 {/* <IconButton spacing={0} >
           <Link className={styles.link}>
